@@ -1,4 +1,5 @@
 using UnityEngine;
+using ColonySurvivalPrototype.Event;
 
 namespace ColonySurvivalPrototype.Main
 {
@@ -6,6 +7,7 @@ namespace ColonySurvivalPrototype.Main
     {
         public static GameManager Instance { get; private set; }
         public ServiceLocator Services { get; private set; }
+        private EventBusService _eventBus;
 
         private void Awake()
         {
@@ -22,11 +24,18 @@ namespace ColonySurvivalPrototype.Main
         private void Start()
         {
             InitializeServices();
+            RegisterServices();
         }
 
         private void InitializeServices()
         {
             Services = new ServiceLocator();
+            _eventBus = new EventBusService();
+        }
+
+        private void RegisterServices()
+        {
+            Services.Register(_eventBus);
         }
     }
 }
