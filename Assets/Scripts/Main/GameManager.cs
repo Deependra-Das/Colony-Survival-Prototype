@@ -1,6 +1,8 @@
 using UnityEngine;
 using ColonySurvivalPrototype.Event;
 using ColonySurvivalPrototype.UI;
+using ColonySurvivalPrototype.Utility;
+using ColonySurvivalPrototype.Colony;
 
 namespace ColonySurvivalPrototype.Main
 {
@@ -9,6 +11,8 @@ namespace ColonySurvivalPrototype.Main
         public static GameManager Instance { get; private set; }
         public ServiceLocator Services { get; private set; }
         private EventBusService _eventBus;
+        private JsonDataLoaderService _jsonLoaderService;
+        private ColonySimulationService _colonySimulationService;
 
         private void Awake()
         {
@@ -33,11 +37,15 @@ namespace ColonySurvivalPrototype.Main
         {
             Services = new ServiceLocator();
             _eventBus = new EventBusService();
+            _jsonLoaderService = new JsonDataLoaderService();
+            _colonySimulationService = new ColonySimulationService();
         }
 
         private void RegisterServices()
         {
             Services.Register(_eventBus);
+            Services.Register(_jsonLoaderService);
+            Services.Register(_colonySimulationService);
         }
     }
 }
