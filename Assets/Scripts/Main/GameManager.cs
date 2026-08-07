@@ -31,6 +31,7 @@ namespace ColonySurvivalPrototype.Main
             InitializeServices();
             RegisterServices();
             ColonyUIManager.Instance.Initialize();
+            ColonyManager.Instance.Initialize(_jsonLoaderService, _colonySimulationService);
         }
 
         private void InitializeServices()
