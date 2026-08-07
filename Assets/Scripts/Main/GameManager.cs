@@ -1,5 +1,6 @@
 using UnityEngine;
 using ColonySurvivalPrototype.Event;
+using ColonySurvivalPrototype.UI;
 
 namespace ColonySurvivalPrototype.Main
 {
@@ -25,6 +26,7 @@ namespace ColonySurvivalPrototype.Main
         {
             InitializeServices();
             RegisterServices();
+            ColonyUIManager.Instance.Initialize();
         }
 
         private void InitializeServices()
