@@ -5,6 +5,7 @@ namespace ColonySurvivalPrototype.Main
     public class GameManager : MonoBehaviour
     {
         public static GameManager Instance { get; private set; }
+        public ServiceLocator Services { get; private set; }
 
         private void Awake()
         {
@@ -20,7 +21,12 @@ namespace ColonySurvivalPrototype.Main
 
         private void Start()
         {
-            Debug.Log("GameManager");
+            InitializeServices();
+        }
+
+        private void InitializeServices()
+        {
+            Services = new ServiceLocator();
         }
     }
 }
