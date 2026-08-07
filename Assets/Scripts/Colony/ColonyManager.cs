@@ -32,7 +32,8 @@ namespace ColonySurvivalPrototype.Colony
             if (populationData != null && consumptionData != null)
             {
                 _colonySimulationServiceObj.AddNewColony(populationData, consumptionData);
-                Debug.Log("New Colony Added");
+                ColonyData colonyData = _colonySimulationServiceObj.GetColonyDataByColonyId(0);
+                Debug.Log($"ColonyId: {colonyData.ColonyId}, VillagerCount: {colonyData.VillagersCount}, Food: {colonyData.FoodReserve}, Water: {colonyData.WaterReserve}, Day: {colonyData.Day}  ");
             }
             else
             {
