@@ -1,0 +1,5 @@
+{
+  "initialVillagers": 20,
+  "initialFoodReserve": 1000,
+  "initialWaterReserve": 700
+}
