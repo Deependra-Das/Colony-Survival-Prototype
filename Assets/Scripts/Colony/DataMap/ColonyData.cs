@@ -28,5 +28,30 @@ namespace ColonySurvivalPrototype.Colony
             WaterConsumptionPerVillagerPerDay = consumptionData.waterConsumptionPerVillagerPerDay;
             Day = 0;
         }
+
+        public void UpdateVillagersCount(int villagersToAdd)
+        {
+            VillagersCount += villagersToAdd;
+        }
+
+        public void UpdateFoodReserve(float FoodToAdd)
+        {
+            FoodReserve += FoodToAdd;
+        }
+
+        public void UpdateWaterReserve(float WaterToAdd)
+        {
+            WaterReserve += WaterToAdd;
+        }
+
+        public void UpdateFoodConsumptionPerVillagerPerDay(float value)
+        {
+            FoodConsumptionPerVillagerPerDay += value;
+        }
+
+        public void UpdateWaterConsumptionPerVillagerPerDay(float value)
+        {
+            WaterConsumptionPerVillagerPerDay += value;
+        }
     }
 }
