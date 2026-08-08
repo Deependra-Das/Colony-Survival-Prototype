@@ -39,7 +39,7 @@ namespace ColonySurvivalPrototype.Main
             Services = new ServiceLocator();
             _eventBusService = new EventBusService();
             _jsonLoaderService = new JsonDataLoaderService();
-            _colonySimulationService = new ColonySimulationService();
+            _colonySimulationService = new ColonySimulationService(_eventBusService);
         }
 
         private void RegisterServices()
