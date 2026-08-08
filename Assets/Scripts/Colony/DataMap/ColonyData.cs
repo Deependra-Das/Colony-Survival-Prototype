@@ -53,5 +53,19 @@ namespace ColonySurvivalPrototype.Colony
         {
             WaterConsumptionPerVillagerPerDay += value;
         }
+
+        public void AdvanceToNextDay(float foodUsed, float waterUsed)
+        {
+            Day++;
+
+            FoodReserve -= foodUsed;
+            WaterReserve -= waterUsed;
+
+            if (FoodReserve < 0)
+                FoodReserve = 0;
+
+            if (WaterReserve < 0)
+                WaterReserve = 0;
+        }
     }
 }

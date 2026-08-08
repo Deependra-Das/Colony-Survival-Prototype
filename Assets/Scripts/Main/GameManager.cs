@@ -10,7 +10,7 @@ namespace ColonySurvivalPrototype.Main
     {
         public static GameManager Instance { get; private set; }
         public ServiceLocator Services { get; private set; }
-        private EventBusService _eventBus;
+        private EventBusService _eventBusService;
         private JsonDataLoaderService _jsonLoaderService;
         private ColonySimulationService _colonySimulationService;
 
@@ -31,20 +31,20 @@ namespace ColonySurvivalPrototype.Main
             InitializeServices();
             RegisterServices();
             ColonyUIManager.Instance.Initialize();
-            ColonyManager.Instance.Initialize(_jsonLoaderService, _colonySimulationService);
+            ColonyManager.Instance.Initialize(_jsonLoaderService, _colonySimulationService, _eventBusService);
         }
 
         private void InitializeServices()
         {
             Services = new ServiceLocator();
-            _eventBus = new EventBusService();
+            _eventBusService = new EventBusService();
             _jsonLoaderService = new JsonDataLoaderService();
-            _colonySimulationService = new ColonySimulationService();
+            _colonySimulationService = new ColonySimulationService(_eventBusService);
         }
 
         private void RegisterServices()
         {
-            Services.Register(_eventBus);
+            Services.Register(_eventBusService);
             Services.Register(_jsonLoaderService);
             Services.Register(_colonySimulationService);
         }
