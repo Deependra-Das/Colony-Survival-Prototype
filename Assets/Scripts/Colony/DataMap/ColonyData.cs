@@ -10,16 +10,22 @@ namespace ColonySurvivalPrototype.Colony
 
         public float WaterReserve { get; private set; }
 
+        public float FoodConsumptionPerVillagerPerDay { get; private set; }
+
+        public float WaterConsumptionPerVillagerPerDay { get; private set; }
+
         public int Day { get; private set; }
 
         public bool IsColonyStarving => FoodReserve <= 0 || WaterReserve <= 0;
 
-        public ColonyData(int colonyId, int villagersCount, float food, float water)
+        public ColonyData(int colonyId, PopulationData populationData, ConsumptionData consumptionData)
         {
             ColonyId = colonyId;
-            VillagersCount = villagersCount;
-            FoodReserve = food;
-            WaterReserve = water;
+            VillagersCount = populationData.villagersCount;
+            FoodReserve = populationData.foodReserve;
+            WaterReserve = populationData.waterReserve;
+            FoodConsumptionPerVillagerPerDay = consumptionData.foodConsumptionPerVillagerPerDay;
+            WaterConsumptionPerVillagerPerDay = consumptionData.waterConsumptionPerVillagerPerDay;
             Day = 0;
         }
     }

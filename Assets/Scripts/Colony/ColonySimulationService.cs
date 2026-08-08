@@ -13,10 +13,10 @@ namespace ColonySurvivalPrototype.Colony
             _colonyDataDictionary = new Dictionary<int, ColonyData>();  
         }
 
-        public void AddNewColony(PopulationData populationData, ConsumptionData consumption)
+        public void AddNewColony(PopulationData populationData, ConsumptionData consumptionData)
         {
             int newColonyId = ColonyCount;
-            _colonyDataDictionary.Add(newColonyId, new ColonyData(newColonyId, populationData.villagersCount, populationData.foodReserve, populationData.waterReserve));
+            _colonyDataDictionary.Add(newColonyId, new ColonyData(newColonyId, populationData, consumptionData));
         }
 
         public ColonyData GetColonyDataByColonyId(int ColonyId)

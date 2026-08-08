@@ -33,7 +33,8 @@ namespace ColonySurvivalPrototype.Colony
             {
                 _colonySimulationServiceObj.AddNewColony(populationData, consumptionData);
                 ColonyData colonyData = _colonySimulationServiceObj.GetColonyDataByColonyId(0);
-                Debug.Log($"ColonyId: {colonyData.ColonyId}, VillagerCount: {colonyData.VillagersCount}, Food: {colonyData.FoodReserve}, Water: {colonyData.WaterReserve}, Day: {colonyData.Day}  ");
+                Debug.Log($"ColonyId: {colonyData.ColonyId}, VillagerCount: {colonyData.VillagersCount}, Food: {colonyData.FoodReserve}, Water: {colonyData.WaterReserve}," +
+                    $"Food Consumption Per Villager Per Day: {colonyData.FoodConsumptionPerVillagerPerDay}, Water Consumption Per Villager Per Day: {colonyData.WaterConsumptionPerVillagerPerDay}, Day: {colonyData.Day}  ");
             }
             else
             {
