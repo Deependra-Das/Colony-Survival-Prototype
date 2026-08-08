@@ -1,6 +1,7 @@
-using UnityEngine;
-using System.Collections.Generic;
 using ColonySurvivalPrototype.Event;
+using System.Collections.Generic;
+using System.Drawing;
+using UnityEngine;
 
 namespace ColonySurvivalPrototype.Colony
 {
@@ -23,8 +24,11 @@ namespace ColonySurvivalPrototype.Colony
             ColonyData newColony = new ColonyData(newColonyId, populationData, consumptionData);
             _colonyDataDictionary.Add(newColonyId, newColony);
 
+            float remainingDaysForFood = GetRemainingDaysUntilFoodRunsOut(newColony);
+            float remainingDaysForWater = GetRemainingDaysUntilWaterRunsOut(newColony);
+
             RaiseNewColonyAddedEvent(newColony.ColonyId);
-            RaiseColonyDataChangedEvent(newColony);
+            RaiseColonyDataChangedEvent(newColony, remainingDaysForFood, remainingDaysForWater);
         }
 
         public ColonyData GetColonyDataByColonyId(int ColonyId)
@@ -42,7 +46,30 @@ namespace ColonySurvivalPrototype.Colony
             float waterUsed = colony.VillagersCount * colony.WaterConsumptionPerVillagerPerDay;
 
             colony.AdvanceToNextDay(foodUsed, waterUsed);
-            RaiseColonyDataChangedEvent(colony);
+            float remainingDaysForFood = GetRemainingDaysUntilFoodRunsOut(colony);
+            float remainingDaysForWater = GetRemainingDaysUntilWaterRunsOut(colony);
+
+            RaiseColonyDataChangedEvent(colony, remainingDaysForFood, remainingDaysForWater);
+        }
+
+        public float GetRemainingDaysUntilFoodRunsOut(ColonyData colony)
+        {
+            float totlaDailyConsumption = colony.VillagersCount * colony.FoodConsumptionPerVillagerPerDay;
+
+            if (totlaDailyConsumption <= 0)
+                return float.PositiveInfinity;
+
+            return colony.FoodReserve / totlaDailyConsumption;
+        }
+
+        public float GetRemainingDaysUntilWaterRunsOut(ColonyData colony)
+        {
+            float totlaDailyConsumption = colony.VillagersCount * colony.WaterConsumptionPerVillagerPerDay;
+
+            if (totlaDailyConsumption <= 0)
+                return float.PositiveInfinity;
+
+            return colony.WaterReserve / totlaDailyConsumption;
         }
 
         private void RaiseNewColonyAddedEvent(int ColonyId)
@@ -50,9 +77,10 @@ namespace ColonySurvivalPrototype.Colony
             _eventBusServiceObj.Publish(new NewColonyAddedEvent(ColonyId));
         }
 
-        private void RaiseColonyDataChangedEvent(ColonyData colony)
+        private void RaiseColonyDataChangedEvent(ColonyData colony, float remainingDaysForFood, float remainingDaysForWater)
         {
-            _eventBusServiceObj.Publish(new ColonyDataChangedEvent(colony.ColonyId, colony.VillagersCount, colony.FoodReserve, colony.WaterReserve, colony.Day));
+            _eventBusServiceObj.Publish(new ColonyDataChangedEvent(colony.ColonyId, colony.VillagersCount, colony.FoodReserve, colony.WaterReserve, colony.Day,
+                colony.FoodConsumptionPerVillagerPerDay, remainingDaysForFood, colony.WaterConsumptionPerVillagerPerDay, remainingDaysForWater));
         }
     }
 }

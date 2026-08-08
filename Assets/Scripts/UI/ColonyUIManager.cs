@@ -11,6 +11,11 @@ namespace ColonySurvivalPrototype.UI
         [SerializeField] private TMP_Text _populationText;
         [SerializeField] private TMP_Text _foodText;
         [SerializeField] private TMP_Text _waterText;
+        [SerializeField] private TMP_Text _dayText;
+        [SerializeField] private TMP_Text _dailyFoodConsumptionText;
+        [SerializeField] private TMP_Text _dailyWaterConsumptionText;
+        [SerializeField] private TMP_Text _remainingDaysForFoodText;
+        [SerializeField] private TMP_Text _remainingDaysForWaterText;
         [SerializeField] private Button _simulationClockButtonPrefab;
         [SerializeField] private Transform _simulationButtonContainer;
 
@@ -59,11 +64,12 @@ namespace ColonySurvivalPrototype.UI
         {
             var button = Instantiate(_simulationClockButtonPrefab, _simulationButtonContainer);
 
-            button.onClick.AddListener(() => HandleButtonClicked(colonyId));
+            button.onClick.AddListener(() => HandleButtonClicked(button, colonyId));
         }
 
-        private void HandleButtonClicked(int colonyId)
+        private void HandleButtonClicked(Button button, int colonyId)
         {
+            button.interactable = false;
             OnSimulationClockButtonClicked(colonyId);
         }
 
@@ -77,6 +83,13 @@ namespace ColonySurvivalPrototype.UI
             UpdateFoodText(eventObj.FoodReserve);
             UpdateWaterText(eventObj.WaterReserve);
             UpdatePopulationText(eventObj.VillagersCount);
+
+
+            UpdateDayText(eventObj.Day);
+            UpdateDailyFoodConsumptionText(eventObj.FoodConsumptionPerVillagerPerDay);
+            UpdateDailyWaterConsumptionText(eventObj.WaterConsumptionPerVillagerPerDay);
+            UpdateRemainingDaysForFoodText(eventObj.RemainingDaysUntilFoodRunsOut);
+            UpdateRemainingDaysForWaterText(eventObj.RemainingDaysUntilWaterRunsOut);
         }
 
         private void SetDefaultValuesOnUI()
@@ -84,6 +97,12 @@ namespace ColonySurvivalPrototype.UI
             UpdateFoodText(defaultNumValue);
             UpdateWaterText(defaultNumValue);
             UpdatePopulationText((int)defaultNumValue);
+
+            UpdateDayText((int)defaultNumValue);
+            UpdateDailyFoodConsumptionText(defaultNumValue);
+            UpdateDailyWaterConsumptionText(defaultNumValue);
+            UpdateRemainingDaysForFoodText(defaultNumValue);
+            UpdateRemainingDaysForWaterText(defaultNumValue);
         }
 
         private void UpdateFoodText(float value)
@@ -100,6 +119,31 @@ namespace ColonySurvivalPrototype.UI
         {
             _populationText.text = FormatNumber(value);
         }
+
+        private void UpdateDayText(int value)
+        {
+            _dayText.text = FormatNumber(value);
+        }
+
+        private void UpdateDailyFoodConsumptionText(float value)
+        {
+            _dailyFoodConsumptionText.text = value.ToString();
+        }
+
+        private void UpdateDailyWaterConsumptionText(float value)
+        {
+            _dailyWaterConsumptionText.text = value.ToString();
+        }
+
+        private void UpdateRemainingDaysForFoodText(float value)
+        {
+            _remainingDaysForFoodText.text = Mathf.RoundToInt(value).ToString();
+        }
+
+        private void UpdateRemainingDaysForWaterText(float value)
+        {
+            _remainingDaysForWaterText.text = Mathf.RoundToInt(value).ToString();
+        }    
 
         private string FormatNumber(float value)
         {
