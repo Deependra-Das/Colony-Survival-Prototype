@@ -22,12 +22,13 @@ namespace ColonySurvivalPrototype.UI
         private void SubscribeToEvents()
         {
             _eventBusServiceObj.Subscribe<NewColonyAddedEvent>(OnNewColonyAddedEvent_UI);
-    
+            _eventBusServiceObj.Subscribe<ColonyDataChangedEvent>(OnColonyDataChangedEvent_UI);
         }
 
         private void UnsubscribeToEvents()
         {
             _eventBusServiceObj.Unsubscribe<NewColonyAddedEvent>(OnNewColonyAddedEvent_UI);
+            _eventBusServiceObj.Unsubscribe<ColonyDataChangedEvent>(OnColonyDataChangedEvent_UI);
         }
 
         private void Awake()
@@ -63,7 +64,19 @@ namespace ColonySurvivalPrototype.UI
 
         private void HandleButtonClicked(int colonyId)
         {
-            Debug.Log($"ButtonClicked {colonyId}");
+            OnSimulationClockButtonClicked(colonyId);
+        }
+
+        private void OnSimulationClockButtonClicked(int colonyId)
+        {
+            _eventBusServiceObj.Publish(new SimulationClockButtonClickedEvent(colonyId));
+        }
+
+        private void OnColonyDataChangedEvent_UI(ColonyDataChangedEvent eventObj)
+        {
+            UpdateFoodText(eventObj.FoodReserve);
+            UpdateWaterText(eventObj.WaterReserve);
+            UpdatePopulationText(eventObj.VillagersCount);
         }
 
         private void SetDefaultValuesOnUI()
