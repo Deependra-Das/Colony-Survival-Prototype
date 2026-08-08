@@ -22,8 +22,9 @@ namespace ColonySurvivalPrototype.Colony
             int newColonyId = ColonyCount;
             ColonyData newColony = new ColonyData(newColonyId, populationData, consumptionData);
             _colonyDataDictionary.Add(newColonyId, newColony);
+
             RaiseNewColonyAddedEvent(newColony.ColonyId);
-            Debug.Log($"ColonyId: {newColony.ColonyId}, VillagerCount: {newColony.VillagersCount}, Food: {newColony.FoodReserve}, Water: {newColony.WaterReserve}, Day: {newColony.Day}");
+            RaiseColonyDataChangedEvent(newColony);
         }
 
         public ColonyData GetColonyDataByColonyId(int ColonyId)
@@ -41,12 +42,17 @@ namespace ColonySurvivalPrototype.Colony
             float waterUsed = colony.VillagersCount * colony.WaterConsumptionPerVillagerPerDay;
 
             colony.AdvanceToNextDay(foodUsed, waterUsed);
-
-            Debug.Log($"ColonyId: {colony.ColonyId}, VillagerCount: {colony.VillagersCount}, Food: {colony.FoodReserve}, Water: {colony.WaterReserve}, Day: {colony.Day}");
+            RaiseColonyDataChangedEvent(colony);
         }
+
         private void RaiseNewColonyAddedEvent(int ColonyId)
         {
             _eventBusServiceObj.Publish(new NewColonyAddedEvent(ColonyId));
+        }
+
+        private void RaiseColonyDataChangedEvent(ColonyData colony)
+        {
+            _eventBusServiceObj.Publish(new ColonyDataChangedEvent(colony.ColonyId, colony.VillagersCount, colony.FoodReserve, colony.WaterReserve, colony.Day));
         }
     }
 }
