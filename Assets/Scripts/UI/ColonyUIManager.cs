@@ -18,16 +18,19 @@ namespace ColonySurvivalPrototype.UI
         [SerializeField] private TMP_Text _remainingDaysForWaterText;
         [SerializeField] private Button _simulationClockButtonPrefab;
         [SerializeField] private Transform _simulationButtonContainer;
+        [SerializeField] private GameObject _starvationAlertPopup;
 
         public static ColonyUIManager Instance { get; private set; }
 
         private EventBusService _eventBusServiceObj;
         private const float defaultNumValue = 0f;
+        private bool _showColonyStarvingPopup = false;
 
         private void SubscribeToEvents()
         {
             _eventBusServiceObj.Subscribe<NewColonyAddedEvent>(OnNewColonyAddedEvent_UI);
             _eventBusServiceObj.Subscribe<ColonyDataChangedEvent>(OnColonyDataChangedEvent_UI);
+            _eventBusServiceObj.Subscribe<ColonyStarvingAlertEvent>(OnColonyStarvingAlertEvent_UI);
         }
 
         private void UnsubscribeToEvents()
@@ -53,6 +56,7 @@ namespace ColonySurvivalPrototype.UI
             _eventBusServiceObj = GameManager.Instance.Services.Get<EventBusService>();
             SubscribeToEvents();
             SetDefaultValuesOnUI();
+            ToggleStarvationAlertPopup(false);
         }
 
         private void OnNewColonyAddedEvent_UI(NewColonyAddedEvent eventObj)
@@ -157,6 +161,21 @@ namespace ColonySurvivalPrototype.UI
                 return $"{value / 1_000_000f:0.#}M";
 
             return $"{value / 1_000_000_000f:0.#}B";
+        }
+
+        private void OnColonyStarvingAlertEvent_UI(ColonyStarvingAlertEvent eventObj)
+        {
+            if(_showColonyStarvingPopup)
+            {
+                return;
+            }
+            _showColonyStarvingPopup = true;
+            ToggleStarvationAlertPopup(true);
+        }
+
+        private void ToggleStarvationAlertPopup(bool value)
+        {
+            _starvationAlertPopup.SetActive(value);
         }
 
         private void OnDestroy()

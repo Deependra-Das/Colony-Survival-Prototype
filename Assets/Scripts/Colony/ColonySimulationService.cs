@@ -50,6 +50,15 @@ namespace ColonySurvivalPrototype.Colony
             float remainingDaysForWater = GetRemainingDaysUntilWaterRunsOut(colony);
 
             RaiseColonyDataChangedEvent(colony, remainingDaysForFood, remainingDaysForWater);
+            CheckForStarvation(colony);
+        }
+
+        private void CheckForStarvation(ColonyData colony)
+        {
+            if (colony.IsColonyStarving)
+            {
+                RaiseColonyStarvingAlertEvent(colony.ColonyId);
+            }     
         }
 
         public float GetRemainingDaysUntilFoodRunsOut(ColonyData colony)
@@ -81,6 +90,11 @@ namespace ColonySurvivalPrototype.Colony
         {
             _eventBusServiceObj.Publish(new ColonyDataChangedEvent(colony.ColonyId, colony.VillagersCount, colony.FoodReserve, colony.WaterReserve, colony.Day,
                 colony.FoodConsumptionPerVillagerPerDay, remainingDaysForFood, colony.WaterConsumptionPerVillagerPerDay, remainingDaysForWater));
+        }
+
+        private void RaiseColonyStarvingAlertEvent(int ColonyId)
+        {
+            _eventBusServiceObj.Publish(new ColonyStarvingAlertEvent(ColonyId));
         }
     }
 }
