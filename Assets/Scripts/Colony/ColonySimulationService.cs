@@ -1,3 +1,4 @@
+using UnityEngine;
 using System.Collections.Generic;
 
 namespace ColonySurvivalPrototype.Colony
@@ -24,6 +25,18 @@ namespace ColonySurvivalPrototype.Colony
             _colonyDataDictionary.TryGetValue(ColonyId, out var colonyData);
 
             return colonyData;
+        }
+
+        public void AdvanceOneDayForVillageById(int villageId)
+        {
+            ColonyData colony = GetColonyDataByColonyId(villageId);
+
+            float foodUsed = colony.VillagersCount * colony.FoodConsumptionPerVillagerPerDay;
+            float waterUsed = colony.VillagersCount * colony.WaterConsumptionPerVillagerPerDay;
+
+            colony.AdvanceToNextDay(foodUsed, waterUsed);
+
+            Debug.Log($"ColonyId: {colony.ColonyId}, VillagerCount: {colony.VillagersCount}, Food: {colony.FoodReserve}, Water: {colony.WaterReserve}, Day: {colony.Day}");
         }
     }
 }
