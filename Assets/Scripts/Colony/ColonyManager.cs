@@ -7,7 +7,7 @@ namespace ColonySurvivalPrototype.Colony
 {
     public class ColonyManager : MonoBehaviour
     {
-        [SerializeField] private float dayDuration = 1f;
+        [SerializeField] private float _dayDuration = 1f;
 
         public static ColonyManager Instance { get; private set; }
 
@@ -15,8 +15,8 @@ namespace ColonySurvivalPrototype.Colony
         private JsonDataLoaderService _jsonLoaderServiceObj;
         private EventBusService _eventBusServiceObj;
         private Coroutine _simulationClockCoroutine;
-        PopulationData populationData;
-        ConsumptionData consumptionData;
+        private PopulationData _populationData;
+        private ConsumptionData _consumptionData;
 
         private void SubscribeToEvents()
         {
@@ -53,15 +53,15 @@ namespace ColonySurvivalPrototype.Colony
 
         private void LoadVillageConfigData()
         {
-            populationData = _jsonLoaderServiceObj.Load<PopulationData>("population.json");
-            consumptionData = _jsonLoaderServiceObj.Load<ConsumptionData>("consumption.json");
+            _populationData = _jsonLoaderServiceObj.Load<PopulationData>("population.json");
+            _consumptionData = _jsonLoaderServiceObj.Load<ConsumptionData>("consumption.json");
         }
 
         private void AddNewColony()
         {
-            if (populationData != null && consumptionData != null)
+            if (_populationData != null && _consumptionData != null)
             {
-                _colonySimulationServiceObj.AddNewColony(populationData, consumptionData);
+                _colonySimulationServiceObj.AddNewColony(_populationData, _consumptionData);
                 ColonyData colonyData = _colonySimulationServiceObj.GetColonyDataByColonyId(0);
             }
             else
@@ -79,7 +79,7 @@ namespace ColonySurvivalPrototype.Colony
         {
             while (true)
             {
-                yield return new WaitForSeconds(dayDuration);
+                yield return new WaitForSeconds(_dayDuration);
 
                 _colonySimulationServiceObj.AdvanceOneDayForVillageById(0);
             }

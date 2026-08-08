@@ -1,7 +1,5 @@
 using ColonySurvivalPrototype.Event;
 using System.Collections.Generic;
-using System.Drawing;
-using UnityEngine;
 
 namespace ColonySurvivalPrototype.Colony
 {

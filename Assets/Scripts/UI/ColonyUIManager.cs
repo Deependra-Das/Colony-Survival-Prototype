@@ -23,7 +23,7 @@ namespace ColonySurvivalPrototype.UI
         public static ColonyUIManager Instance { get; private set; }
 
         private EventBusService _eventBusServiceObj;
-        private const float defaultNumValue = 0f;
+        private const float _defaultNumValue = 0f;
         private bool _showColonyStarvingPopup = false;
 
         private void SubscribeToEvents()
@@ -98,15 +98,15 @@ namespace ColonySurvivalPrototype.UI
 
         private void SetDefaultValuesOnUI()
         {
-            UpdateFoodText(defaultNumValue);
-            UpdateWaterText(defaultNumValue);
-            UpdatePopulationText((int)defaultNumValue);
+            UpdateFoodText(_defaultNumValue);
+            UpdateWaterText(_defaultNumValue);
+            UpdatePopulationText((int)_defaultNumValue);
 
-            UpdateDayText((int)defaultNumValue);
-            UpdateDailyFoodConsumptionText(defaultNumValue);
-            UpdateDailyWaterConsumptionText(defaultNumValue);
-            UpdateRemainingDaysForFoodText(defaultNumValue);
-            UpdateRemainingDaysForWaterText(defaultNumValue);
+            UpdateDayText((int)_defaultNumValue);
+            UpdateDailyFoodConsumptionText(_defaultNumValue);
+            UpdateDailyWaterConsumptionText(_defaultNumValue);
+            UpdateRemainingDaysForFoodText(_defaultNumValue);
+            UpdateRemainingDaysForWaterText(_defaultNumValue);
         }
 
         private void UpdateFoodText(float value)
