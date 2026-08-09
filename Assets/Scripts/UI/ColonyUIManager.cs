@@ -131,12 +131,12 @@ namespace ColonySurvivalPrototype.UI
 
         private void UpdateDailyFoodConsumptionText(float value)
         {
-            _dailyFoodConsumptionText.text = value.ToString();
+            _dailyFoodConsumptionText.text = value.ToString("F2");
         }
 
         private void UpdateDailyWaterConsumptionText(float value)
         {
-            _dailyWaterConsumptionText.text = value.ToString();
+            _dailyWaterConsumptionText.text = value.ToString("F2");
         }
 
         private void UpdateRemainingDaysForFoodText(float value)
